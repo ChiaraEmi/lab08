@@ -4,6 +4,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -30,12 +32,16 @@ public class MiniGUI {
      * Creates a new {@link MiniGUI}.
      */
     public MiniGUI() {
-        //final JPanel canvas = new JPanel();
+        final JPanel canvas = new JPanel();
         final JPanel canvas2 = new JPanel();
+        final JTextArea textArea = new JTextArea("Result");
+        canvas.setLayout(new BorderLayout());
         canvas2.setLayout(new BoxLayout(canvas2, BoxLayout.X_AXIS));
+        canvas.add(canvas2, BorderLayout.CENTER);
+        canvas.add(textArea, BorderLayout.NORTH);
         final JButton write = new JButton("Print a random number on standard output");
         canvas2.add(write);
-        frame.setContentPane(canvas2);
+        frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         /*
@@ -44,7 +50,7 @@ public class MiniGUI {
         write.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                System.out.println(randomGenerator.nextInt());
+                System.out.println(randomGenerator.nextInt()); //NOPMD suppressed as it has to be printed in output 
             }
         });
     }
