@@ -50,7 +50,9 @@ public class MiniGUI {
         write.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                System.out.println(randomGenerator.nextInt()); //NOPMD suppressed as it has to be printed in output 
+                final int randomNum = randomGenerator.nextInt();
+                System.out.println(randomNum); //NOPMD suppressed as it has to be printed in output 
+                textArea.setText(String.valueOf(randomNum));
             }
         });
     }
