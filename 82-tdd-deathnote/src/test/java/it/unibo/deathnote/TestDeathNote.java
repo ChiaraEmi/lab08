@@ -15,6 +15,8 @@ class TestDeathNote {
     private static final String NAME2 = "Tizio Caio";
     private static final String DEFAULT_DEATH_CAUSE = "heart attack";
     private static final String DEATH_CAUSE = "karting accident";
+    private static final String DETAILS = "ran for too long";
+
     private DeathNote blackList = new DeathNoteImpl();
 
     public void testZeroAndNegativeRules(){
@@ -68,5 +70,25 @@ class TestDeathNote {
         boolean changeCause = blackList.writeDeathCause(DEFAULT_DEATH_CAUSE);
         assertFalse(changeCause);
         assertEquals(DEATH_CAUSE, blackList.getDeathCause(NAME2));
+    }
+
+    public void testDetailsOfDeath() throws InterruptedException{
+        try {
+            blackList.writeDetails(DETAILS);
+            Assertions.fail("Writing the death details before writing a name was possible, but should have thrown an exception");
+        } catch (final IllegalStateException e) {
+            assertNotNull(e.getMessage()); // Non-null message
+            assertFalse(e.getMessage().isBlank()); // Not a blank or empty message
+        }
+        blackList.writeName(NAME);
+        assertEquals("", blackList.getDeathDetails(NAME));
+        boolean setDetails = blackList.writeDetails(DETAILS);
+        assertTrue(setDetails);
+        assertEquals(DETAILS, blackList.getDeathDetails(NAME));
+        blackList.writeName(NAME2);
+        Thread.sleep(6100);
+        boolean changeDetails = blackList.writeDetails("bla bla bla");
+        assertFalse(changeDetails);
+        assertEquals("", blackList.getDeathDetails(NAME2));
     }
 }
