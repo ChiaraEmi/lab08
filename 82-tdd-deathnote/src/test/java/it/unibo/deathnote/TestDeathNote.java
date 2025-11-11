@@ -2,6 +2,7 @@ package it.unibo.deathnote;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Assertions;
 
@@ -9,6 +10,8 @@ import it.unibo.deathnote.api.DeathNote;
 import it.unibo.deathnote.api.DeathNoteImpl;
 
 class TestDeathNote {
+    private static final String NAME = "Pippo Pippi";
+    private static final String NAME2 = "Tizio Caio";
     private DeathNote blackList = new DeathNoteImpl();
 
     public void testZeroAndNegativeRules(){
@@ -34,5 +37,13 @@ class TestDeathNote {
             assertNotNull(rule);
             assertFalse(rule.isBlank());
         }
+    }
+
+    public void testHumanWithNameWritten(){
+        assertFalse(blackList.isNameWritten(NAME));
+        blackList.writeName(NAME);
+        assertTrue(blackList.isNameWritten(NAME));
+        assertFalse(blackList.isNameWritten(NAME2));
+        assertFalse(blackList.isNameWritten(""));
     }
 }
