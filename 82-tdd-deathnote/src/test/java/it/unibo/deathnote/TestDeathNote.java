@@ -28,4 +28,11 @@ class TestDeathNote {
             assertFalse(e.getMessage().isBlank()); // Not a blank or empty message
         }
     }
+
+    public void testEmptyOrNullRules(){
+        for(String rule : DeathNote.RULES){
+            assertNotNull(rule);
+            assertFalse(rule.isBlank());
+        }
+    }
 }
