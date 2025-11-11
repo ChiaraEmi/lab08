@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.deathnote.api.DeathNote;
-import it.unibo.deathnote.api.DeathNoteImpl;
+import it.unibo.deathnote.impl.DeathNoteImpl;
 
 class TestDeathNote {
     private static final String NAME = "Pippo Pippi";
@@ -17,11 +17,13 @@ class TestDeathNote {
     private static final String DEFAULT_DEATH_CAUSE = "heart attack";
     private static final String DEATH_CAUSE = "karting accident";
     private static final String DETAILS = "ran for too long";
+    private static final int SLEEP_TIME_1 = 100;
+    private static final int SLEEP_TIME_2 = 6100;
 
     private DeathNote blackList = new DeathNoteImpl();
 
     @Test
-    public void testZeroAndNegativeRules(){
+    public void testZeroAndNegativeRules() {
         try {
             blackList.getRule(0);
             Assertions.fail("Passing rule number 0 was possible, but should have thrown an exception");
@@ -40,15 +42,15 @@ class TestDeathNote {
     }
 
     @Test
-    public void testEmptyOrNullRules(){
-        for(String rule : DeathNote.RULES){
+    public void testEmptyOrNullRules() {
+        for (final String rule : DeathNote.RULES) {
             assertNotNull(rule);
             assertFalse(rule.isBlank());
         }
     }
 
     @Test
-    public void testHumanWithNameWritten(){
+    public void testHumanWithNameWritten() {
         assertFalse(blackList.isNameWritten(NAME));
         blackList.writeName(NAME);
         assertTrue(blackList.isNameWritten(NAME));
@@ -57,7 +59,7 @@ class TestDeathNote {
     }
 
     @Test
-    public void testCauseOfDeath() throws InterruptedException{
+    public void testCauseOfDeath() throws InterruptedException {
         try {
             blackList.writeDeathCause(DEATH_CAUSE);
             Assertions.fail("Writing a cause of death before writing a name was possible, but should have thrown an exception");
@@ -68,17 +70,17 @@ class TestDeathNote {
         blackList.writeName(NAME);
         assertEquals(DEFAULT_DEATH_CAUSE, blackList.getDeathCause(NAME));
         blackList.writeName(NAME2);
-        boolean setCause = blackList.writeDeathCause(DEATH_CAUSE);
+        final boolean setCause = blackList.writeDeathCause(DEATH_CAUSE);
         assertTrue(setCause);
         assertEquals(DEATH_CAUSE, blackList.getDeathCause(NAME2));
-        Thread.sleep(100);
-        boolean changeCause = blackList.writeDeathCause(DEFAULT_DEATH_CAUSE);
+        Thread.sleep(SLEEP_TIME_1);
+        final boolean changeCause = blackList.writeDeathCause(DEFAULT_DEATH_CAUSE);
         assertFalse(changeCause);
         assertEquals(DEATH_CAUSE, blackList.getDeathCause(NAME2));
     }
 
     @Test
-    public void testDetailsOfDeath() throws InterruptedException{
+    public void testDetailsOfDeath() throws InterruptedException {
         try {
             blackList.writeDetails(DETAILS);
             Assertions.fail("Writing the death details before writing a name was possible, but should have thrown an exception");
@@ -88,12 +90,12 @@ class TestDeathNote {
         }
         blackList.writeName(NAME);
         assertEquals("", blackList.getDeathDetails(NAME));
-        boolean setDetails = blackList.writeDetails(DETAILS);
+        final boolean setDetails = blackList.writeDetails(DETAILS);
         assertTrue(setDetails);
         assertEquals(DETAILS, blackList.getDeathDetails(NAME));
         blackList.writeName(NAME2);
-        Thread.sleep(6100);
-        boolean changeDetails = blackList.writeDetails("bla bla bla");
+        Thread.sleep(SLEEP_TIME_2);
+        final boolean changeDetails = blackList.writeDetails("bla bla bla");
         assertFalse(changeDetails);
         assertEquals("", blackList.getDeathDetails(NAME2));
     }
