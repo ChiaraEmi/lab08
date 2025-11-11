@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import it.unibo.deathnote.api.DeathNote;
 import it.unibo.deathnote.api.DeathNoteImpl;
@@ -19,6 +20,7 @@ class TestDeathNote {
 
     private DeathNote blackList = new DeathNoteImpl();
 
+    @Test
     public void testZeroAndNegativeRules(){
         try {
             blackList.getRule(0);
@@ -37,6 +39,7 @@ class TestDeathNote {
         }
     }
 
+    @Test
     public void testEmptyOrNullRules(){
         for(String rule : DeathNote.RULES){
             assertNotNull(rule);
@@ -44,6 +47,7 @@ class TestDeathNote {
         }
     }
 
+    @Test
     public void testHumanWithNameWritten(){
         assertFalse(blackList.isNameWritten(NAME));
         blackList.writeName(NAME);
@@ -52,6 +56,7 @@ class TestDeathNote {
         assertFalse(blackList.isNameWritten(""));
     }
 
+    @Test
     public void testCauseOfDeath() throws InterruptedException{
         try {
             blackList.writeDeathCause(DEATH_CAUSE);
@@ -72,6 +77,7 @@ class TestDeathNote {
         assertEquals(DEATH_CAUSE, blackList.getDeathCause(NAME2));
     }
 
+    @Test
     public void testDetailsOfDeath() throws InterruptedException{
         try {
             blackList.writeDetails(DETAILS);
