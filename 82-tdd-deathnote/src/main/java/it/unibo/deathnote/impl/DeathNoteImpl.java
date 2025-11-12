@@ -7,6 +7,7 @@ import it.unibo.deathnote.api.DeathNote;
 
 public class DeathNoteImpl implements DeathNote{
     private Map<String, Death> listOfDeaths = new HashMap<>();
+    private Death currentDeath;
 
     @Override
     public String getRule(int ruleNumber) {
@@ -19,15 +20,25 @@ public class DeathNoteImpl implements DeathNote{
 
     @Override
     public void writeName(String name) {
-        if(name.isEmpty()) {
+        if(name == null) {
             throw new NullPointerException();
         }
         Death newDeath = new Death(name, System.currentTimeMillis());
         listOfDeaths.put(name, newDeath);
+        currentDeath = newDeath;
     }
 
     @Override
     public boolean writeDeathCause(String cause) {
+        if(currentDeath.name == null || cause == null) {
+            throw new IllegalStateException();
+        }
+        
+        if(System.currentTimeMillis() - currentDeath.timeName <= 40) {
+            currentDeath.deathCause = cause;
+            currentDeath.timeCause = System.currentTimeMillis();
+            return true;
+        }
         return false;
     }
 
@@ -66,6 +77,9 @@ public class DeathNoteImpl implements DeathNote{
         private Death(final String name, final long time) {
             this.name = name;
             this.timeName = time;
+            this.deathCause = DEFAULT_DEATH_CAUSE;
+            this.timeCause = 0;
+            this.details = "";
         }
 
         private Death(final String cause, final String details) {
