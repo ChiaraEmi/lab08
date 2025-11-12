@@ -22,13 +22,13 @@ public class DeathNoteImpl implements DeathNote{
         if(name.isEmpty()) {
             throw new NullPointerException();
         }
-        listOfDeaths.put(name, new Death());
+        Death newDeath = new Death(name, System.currentTimeMillis());
+        listOfDeaths.put(name, newDeath);
     }
 
     @Override
     public boolean writeDeathCause(String cause) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'writeDeathCause'");
+        return false;
     }
 
     @Override
@@ -57,12 +57,15 @@ public class DeathNoteImpl implements DeathNote{
     
     private static final class Death {
         private final String DEFAULT_DEATH_CAUSE = "heart attack";
+        private String name;
         private String deathCause;
         private String details;
+        private long timeName;
+        private long timeCause;
 
-        private Death() {
-            this.deathCause = DEFAULT_DEATH_CAUSE;
-            this.details = "";
+        private Death(final String name, final long time) {
+            this.name = name;
+            this.timeName = time;
         }
 
         private Death(final String cause, final String details) {
