@@ -19,8 +19,10 @@ public class DeathNoteImpl implements DeathNote{
 
     @Override
     public void writeName(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'writeName'");
+        if(name.isEmpty()) {
+            throw new NullPointerException();
+        }
+        listOfDeaths.put(name, new Death());
     }
 
     @Override
@@ -53,4 +55,20 @@ public class DeathNoteImpl implements DeathNote{
         throw new UnsupportedOperationException("Unimplemented method 'isNameWritten'");
     }
     
+    private static final class Death {
+        private final String DEFAULT_DEATH_CAUSE = "heart attack";
+        private String deathCause;
+        private String details;
+
+        private Death() {
+            this.deathCause = DEFAULT_DEATH_CAUSE;
+            this.details = "";
+        }
+
+        private Death(final String cause, final String details) {
+            this.deathCause = cause;
+            this.details = details;
+        }
+
+    }
 }
