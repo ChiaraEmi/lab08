@@ -1,13 +1,20 @@
 package it.unibo.deathnote.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import it.unibo.deathnote.api.DeathNote;
 
 public class DeathNoteImpl implements DeathNote{
+    private Map<String, Death> listOfDeaths = new HashMap<>();
 
     @Override
     public String getRule(int ruleNumber) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRule'");
+        if(ruleNumber < 1 || ruleNumber > DeathNote.RULES.size()) {
+            throw new IllegalArgumentException();
+        }
+
+        return DeathNote.RULES.get(ruleNumber - 1);
     }
 
     @Override
