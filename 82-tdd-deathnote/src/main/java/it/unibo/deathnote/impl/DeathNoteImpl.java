@@ -46,8 +46,20 @@ public class DeathNoteImpl implements DeathNote{
 
     @Override
     public boolean writeDetails(String details) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'writeDetails'");
+        if(currentDeath == null || details == null) {
+            throw new IllegalStateException();
+        }
+        
+        if(currentDeath.timeCause != 0) {
+            long timeNow = System.currentTimeMillis();
+
+            if(timeNow - currentDeath.timeCause <= 6040) {
+                currentDeath.details = details;
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     @Override
