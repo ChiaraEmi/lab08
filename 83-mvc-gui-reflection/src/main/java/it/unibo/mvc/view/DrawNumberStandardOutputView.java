@@ -1,0 +1,26 @@
+import javax.swing.JFrame;
+
+import it.unibo.mvc.api.DrawNumberController;
+import it.unibo.mvc.api.DrawNumberView;
+import it.unibo.mvc.api.DrawResult;
+
+public final class DrawNumberStandardOutputView implements DrawNumberView {
+
+    private DrawNumberController controller;
+
+    @Override
+    public void setController(DrawNumberController observer) {
+
+    }
+
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void result(DrawResult res) {
+        System.out.println(res.getDescription());
+    }
+    
+}
