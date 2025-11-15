@@ -64,24 +64,26 @@ public class DeathNoteImpl implements DeathNote{
 
     @Override
     public String getDeathCause(String name) {
-        Death d = listOfDeaths.get(name);
-        if(d == null) {
-            throw new IllegalArgumentException();
-        }
-
-        return d.deathCause;
+        return checkArgument(name).deathCause;
     }
 
     @Override
     public String getDeathDetails(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDeathDetails'");
+        return checkArgument(name).details;
     }
 
     @Override
     public boolean isNameWritten(String name) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'isNameWritten'");
+    }
+
+    private Death checkArgument(String argument) {
+        Death d = listOfDeaths.get(argument);
+        if(d == null) {
+            throw new IllegalArgumentException();
+        }
+        return d;
     }
     
     private static final class Death {
