@@ -58,14 +58,18 @@ public class DeathNoteImpl implements DeathNote{
                 return true;
             }
         }
-        
+
         return false;
     }
 
     @Override
     public String getDeathCause(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDeathCause'");
+        Death d = listOfDeaths.get(name);
+        if(d == null) {
+            throw new IllegalArgumentException();
+        }
+
+        return d.deathCause;
     }
 
     @Override
