@@ -23,20 +23,22 @@ public class DeathNoteImpl implements DeathNote{
         if(name == null) {
             throw new NullPointerException();
         }
-        Death newDeath = new Death(name, System.currentTimeMillis());
+        Death newDeath = new Death(System.currentTimeMillis());
         listOfDeaths.put(name, newDeath);
         currentDeath = newDeath;
     }
 
     @Override
     public boolean writeDeathCause(String cause) {
-        if(currentDeath.name == null || cause == null) {
+        if(currentDeath == null || cause == null) {
             throw new IllegalStateException();
         }
         
-        if(System.currentTimeMillis() - currentDeath.timeName <= 40) {
+        long timeNow = System.currentTimeMillis();
+
+        if(timeNow - currentDeath.timeName <= 40) {
             currentDeath.deathCause = cause;
-            currentDeath.timeCause = System.currentTimeMillis();
+            currentDeath.timeCause = timeNow;
             return true;
         }
         return false;
@@ -68,14 +70,12 @@ public class DeathNoteImpl implements DeathNote{
     
     private static final class Death {
         private final String DEFAULT_DEATH_CAUSE = "heart attack";
-        private String name;
         private String deathCause;
         private String details;
         private long timeName;
         private long timeCause;
 
-        private Death(final String name, final long time) {
-            this.name = name;
+        private Death(final long time) {
             this.timeName = time;
             this.deathCause = DEFAULT_DEATH_CAUSE;
             this.timeCause = 0;
