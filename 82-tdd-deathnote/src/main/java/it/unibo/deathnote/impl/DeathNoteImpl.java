@@ -12,7 +12,7 @@ public class DeathNoteImpl implements DeathNote{
     @Override
     public String getRule(int ruleNumber) {
         if(ruleNumber < 1 || ruleNumber > DeathNote.RULES.size()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Illegal rule numer: " + ruleNumber);
         }
 
         return DeathNote.RULES.get(ruleNumber - 1);
@@ -30,7 +30,11 @@ public class DeathNoteImpl implements DeathNote{
 
     @Override
     public boolean writeDeathCause(String cause) {
-        if(currentDeath == null || cause == null) {
+        if(currentDeath == null) {
+            throw new IllegalStateException("No name has been written yet in the DeathNote");
+        }
+
+        if(cause == null) {
             throw new IllegalStateException();
         }
         
@@ -38,22 +42,27 @@ public class DeathNoteImpl implements DeathNote{
 
         if(timeNow - currentDeath.timeName <= 40) {
             currentDeath.deathCause = cause;
-            currentDeath.timeCause = timeNow;
+            currentDeath.timeDeath = timeNow;
             return true;
         }
+
         return false;
     }
 
     @Override
     public boolean writeDetails(String details) {
-        if(currentDeath == null || details == null) {
+        if(currentDeath == null) {
+            throw new IllegalStateException("No name has been written yet in the DeathNote");
+        }
+
+        if(details == null) {
             throw new IllegalStateException();
         }
         
-        if(currentDeath.timeCause != 0) {
+        if(currentDeath.timeDeath != 0) {
             long timeNow = System.currentTimeMillis();
 
-            if(timeNow - currentDeath.timeCause <= 6040) {
+            if(timeNow - currentDeath.timeDeath <= 6040) {
                 currentDeath.details = details;
                 return true;
             }
@@ -90,19 +99,13 @@ public class DeathNoteImpl implements DeathNote{
         private String deathCause;
         private String details;
         private long timeName;
-        private long timeCause;
+        private long timeDeath;
 
         private Death(final long time) {
             this.timeName = time;
             this.deathCause = DEFAULT_DEATH_CAUSE;
-            this.timeCause = 0;
+            this.timeDeath = time;
             this.details = "";
         }
-
-        private Death(final String cause, final String details) {
-            this.deathCause = cause;
-            this.details = details;
-        }
-
     }
 }
