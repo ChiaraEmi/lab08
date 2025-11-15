@@ -5,42 +5,47 @@ import java.util.Map;
 
 import it.unibo.deathnote.api.DeathNote;
 
-public class DeathNoteImpl implements DeathNote{
-    private Map<String, Death> listOfDeaths = new HashMap<>();
+/**
+ * DeathNoteImpl implements DeathNote interface.
+ */
+public final class DeathNoteImpl implements DeathNote {
+    private static final long DEATH_TIME_WINDOW = 40;
+    private static final long DETAILS_TIME_WINDOW = 6040;
+    private final Map<String, Death> listOfDeaths = new HashMap<>();
     private Death currentDeath;
 
     @Override
-    public String getRule(int ruleNumber) {
-        if(ruleNumber < 1 || ruleNumber > DeathNote.RULES.size()) {
+    public String getRule(final int ruleNumber) {
+        if (ruleNumber < 1 || ruleNumber > RULES.size()) {
             throw new IllegalArgumentException("Illegal rule numer: " + ruleNumber);
         }
 
-        return DeathNote.RULES.get(ruleNumber - 1);
+        return RULES.get(ruleNumber - 1);
     }
 
     @Override
-    public void writeName(String name) {
-        if(name == null) {
-            throw new NullPointerException();
+    public void writeName(final String name) {
+        if (name == null) {
+            throw new NullPointerException(); //NOPMD suppressed because this behavior is required by the project specifications 
         }
-        Death newDeath = new Death(System.currentTimeMillis());
+        final Death newDeath = new Death(System.currentTimeMillis());
         listOfDeaths.put(name, newDeath);
         currentDeath = newDeath;
     }
 
     @Override
-    public boolean writeDeathCause(String cause) {
-        if(currentDeath == null) {
+    public boolean writeDeathCause(final String cause) {
+        if (currentDeath == null) {
             throw new IllegalStateException("No name has been written yet in the DeathNote");
         }
 
-        if(cause == null) {
+        if (cause == null) {
             throw new IllegalStateException();
         }
-        
-        long timeNow = System.currentTimeMillis();
 
-        if(timeNow - currentDeath.timeName <= 40) {
+        final long timeNow = System.currentTimeMillis();
+
+        if (timeNow - currentDeath.timeName <= DEATH_TIME_WINDOW) {
             currentDeath.deathCause = cause;
             currentDeath.timeDeath = timeNow;
             return true;
@@ -50,19 +55,19 @@ public class DeathNoteImpl implements DeathNote{
     }
 
     @Override
-    public boolean writeDetails(String details) {
-        if(currentDeath == null) {
+    public boolean writeDetails(final String details) {
+        if (currentDeath == null) {
             throw new IllegalStateException("No name has been written yet in the DeathNote");
         }
 
-        if(details == null) {
+        if (details == null) {
             throw new IllegalStateException();
         }
-        
-        if(currentDeath.timeDeath != 0) {
-            long timeNow = System.currentTimeMillis();
 
-            if(timeNow - currentDeath.timeDeath <= 6040) {
+        if (currentDeath.timeDeath != 0) {
+            final long timeNow = System.currentTimeMillis();
+
+            if (timeNow - currentDeath.timeDeath <= DETAILS_TIME_WINDOW) {
                 currentDeath.details = details;
                 return true;
             }
@@ -72,33 +77,33 @@ public class DeathNoteImpl implements DeathNote{
     }
 
     @Override
-    public String getDeathCause(String name) {
+    public String getDeathCause(final String name) {
         return checkArgument(name).deathCause;
     }
 
     @Override
-    public String getDeathDetails(String name) {
+    public String getDeathDetails(final String name) {
         return checkArgument(name).details;
     }
 
     @Override
-    public boolean isNameWritten(String name) {
+    public boolean isNameWritten(final String name) {
         return listOfDeaths.containsKey(name);
     }
 
-    private Death checkArgument(String argument) {
-        Death d = listOfDeaths.get(argument);
-        if(d == null) {
+    private Death checkArgument(final String argument) {
+        final Death d = listOfDeaths.get(argument);
+        if (d == null) {
             throw new IllegalArgumentException();
         }
         return d;
     }
-    
+
     private static final class Death {
-        private final String DEFAULT_DEATH_CAUSE = "heart attack";
+        private static final String DEFAULT_DEATH_CAUSE = "heart attack";
         private String deathCause;
         private String details;
-        private long timeName;
+        private final long timeName;
         private long timeDeath;
 
         private Death(final long time) {

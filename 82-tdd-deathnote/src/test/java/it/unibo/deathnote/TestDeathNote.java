@@ -20,10 +20,10 @@ class TestDeathNote {
     private static final int SLEEP_TIME_1 = 100;
     private static final int SLEEP_TIME_2 = 6100;
 
-    private DeathNote blackList = new DeathNoteImpl();
+    private final DeathNote blackList = new DeathNoteImpl();
 
     @Test
-    public void testZeroAndNegativeRules() {
+    void testZeroAndNegativeRules() {
         try {
             blackList.getRule(0);
             Assertions.fail("Passing rule number 0 was possible, but should have thrown an exception");
@@ -42,7 +42,7 @@ class TestDeathNote {
     }
 
     @Test
-    public void testEmptyOrNullRules() {
+    void testEmptyOrNullRules() {
         for (final String rule : DeathNote.RULES) {
             assertNotNull(rule);
             assertFalse(rule.isBlank());
@@ -50,7 +50,7 @@ class TestDeathNote {
     }
 
     @Test
-    public void testHumanWithNameWritten() {
+    void testHumanWithNameWritten() {
         assertFalse(blackList.isNameWritten(NAME));
         blackList.writeName(NAME);
         assertTrue(blackList.isNameWritten(NAME));
@@ -59,7 +59,7 @@ class TestDeathNote {
     }
 
     @Test
-    public void testCauseOfDeath() throws InterruptedException {
+    void testCauseOfDeath() throws InterruptedException {
         try {
             blackList.writeDeathCause(DEATH_CAUSE);
             Assertions.fail("Writing a cause of death before writing a name was possible, but should have thrown an exception");
@@ -80,7 +80,7 @@ class TestDeathNote {
     }
 
     @Test
-    public void testDetailsOfDeath() throws InterruptedException {
+    void testDetailsOfDeath() throws InterruptedException {
         try {
             blackList.writeDetails(DETAILS);
             Assertions.fail("Writing the death details before writing a name was possible, but should have thrown an exception");
