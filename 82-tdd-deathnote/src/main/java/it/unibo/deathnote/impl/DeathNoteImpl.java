@@ -74,8 +74,7 @@ public class DeathNoteImpl implements DeathNote{
 
     @Override
     public boolean isNameWritten(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isNameWritten'");
+        return listOfDeaths.containsKey(name);
     }
 
     private Death checkArgument(String argument) {
