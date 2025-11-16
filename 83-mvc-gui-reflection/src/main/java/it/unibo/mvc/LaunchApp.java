@@ -37,11 +37,9 @@ public final class LaunchApp {
         final var classLoadStdO = Class.forName("it.unibo.mvc.view.DrawNumberStandardOutputView");
         for (int i = 0; i < 3; i++) {
             final DrawNumberView view = (DrawNumberView) classLoadSwg.getDeclaredConstructor().newInstance();
+            final DrawNumberView view2 = (DrawNumberView) classLoadStdO.getDeclaredConstructor().newInstance();
             app.addView(view);
-        }
-        for (int i = 0; i < 3; i++) {
-            final DrawNumberView view = (DrawNumberView) classLoadStdO.getDeclaredConstructor().newInstance();
-            app.addView(view);
+            app.addView(view2);
         }
     }
 }
