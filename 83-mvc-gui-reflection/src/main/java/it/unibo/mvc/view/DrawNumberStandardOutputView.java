@@ -5,7 +5,7 @@ import it.unibo.mvc.api.DrawNumberView;
 import it.unibo.mvc.api.DrawResult;
 
 /**
- * Graphical {@link DrawNumberView} implementation.
+ * A standard output {@link DrawNumberView} implementation .
  */
 public final class DrawNumberStandardOutputView implements DrawNumberView {
 
