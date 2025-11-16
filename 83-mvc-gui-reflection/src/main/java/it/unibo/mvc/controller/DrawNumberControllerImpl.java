@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * This class implements the game controller. It orchestrates the game, exposes methods to its observers
  * (the boundaries), and sends results to them.
@@ -48,6 +50,10 @@ public final class DrawNumberControllerImpl implements DrawNumberController {
         this.model.reset();
     }
 
+    @SuppressFBWarnings(
+        value = "DM_EXIT",
+        justification = "In this case when quitting, the app shutdown."
+    )
     @Override
     public void quit() {
         /*
@@ -56,7 +62,7 @@ public final class DrawNumberControllerImpl implements DrawNumberController {
          * should be paid to alive threads, as the application would continue to persist
          * until the last thread terminates.
          */
-        System.exit(0);
+        System.exit(0); 
     }
 
 }

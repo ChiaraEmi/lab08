@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -90,9 +92,13 @@ public final class DrawNumberSwingView implements DrawNumberView {
         return showConfirmDialog(frame, question, name, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
     }
 
+    @SuppressFBWarnings(
+        value = "EI2",
+        justification = "Suppressed beacuase of project specifications."
+    )
     @Override
     public void setController(final DrawNumberController observer) {
-        this.controller = observer;
+        this.controller = observer; 
     }
 
     @Override
